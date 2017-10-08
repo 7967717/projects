@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+    lang="#{localeBean.localeCode}"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    >
+    <f:view locale="#{localeBean.locale}"/>
+
+    <body>
+
+        <ui:composition template="./userTemplate.xhtml">
+
+            <ui:define name="content">
+                <p/>
+                <h:outputText value="#{bundle.Hello}#{userMainPage.user.name}"/> :)
+                <br/>
+                <h:outputText value="#{bundle.PleaseChooseAccount}"/>
+                <p/>
+                <h:form id="form1">
+                    <p:dataTable id="createOrder" var="account" value="#{userMainPage.accountList}"
+                                 paginator="true" rows="3">
+
+                        <f:facet name="header">  
+                            <h:outputText value="#{bundle.AccountList}"/> 
+                        </f:facet>
+
+                        <p:column style="width:10%"> 
+                            <p:commandButton update=":form" value="#{bundle.Select}">  
+                                <f:setPropertyActionListener value="#{account}" target="#{userMainPage.selectedAccount}" /> 
+                            </p:commandButton> 
+                        </p:column> 
+
+                        <p:column style="width:5%">
+                            <f:facet name="header">  
+                                <h:outputText value="#{bundle.ID}"/>  
+                            </f:facet> 
+                            <h:outputText value="#{account.id}" />
+                        </p:column>
+
+                        <p:column style="width:25%">
+                            <f:facet name="header">  
+                                <h:outputText value="#{bundle.Balance}"/>  
+                            </f:facet> 
+                            <h:outputText value="#{account.balance}" />
+                        </p:column>
+
+                        <p:column style="width:25%">
+                            <f:facet name="header">  
+                                <h:outputText value="#{bundle.Currency}"/>  
+                            </f:facet> 
+                            <h:outputText value="#{account.currencyId}" />
+                        </p:column>
+
+                    </p:dataTable>
+                </h:form>
+                <p/>
+                <p/>
+                <h:form>
+                    <h:outputText value="#{bundle.CreateNewAccount}"/> 
+                    <p/>
+                    <p:selectOneMenu value="#{userMainPage.currency.type}" effect="fade">  
+                        <f:selectItem itemLabel="#{bundle.SelectCurrency}" itemValue="" />  
+                        <f:selectItems value="#{userMainPage.currenciesList}" var="currency" itemLabel="#{currency.type}"/>  
+                    </p:selectOneMenu>
+                    <br/>
+                    <p:commandButton update=":form1:createOrder" value="#{bundle.AddAccount}" action="#{userMainPage.addAccount()}"/> 
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

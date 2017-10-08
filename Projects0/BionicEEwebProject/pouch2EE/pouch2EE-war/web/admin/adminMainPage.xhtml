@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="#{localeBean.localeCode}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:view locale="#{localeBean.locale}"/>
+
+    <body>
+
+        <ui:composition template="./adminTemplate.xhtml">
+
+            <ui:define name="content">
+                <br/>
+                <br/>
+                <h:outputText value="#{bundle.Hello}#{userMainPage.user.name}"/> :)
+                <br/>
+                <br/>
+                <br/> 
+                <h:form>
+                    <p:dataTable value="#{adminMainPage.currenciesList}" var="currency">
+                        
+                        <f:facet name="header">  
+                            <h:outputText value="#{bundle.CurrencyList}"/> 
+                        </f:facet> 
+                        <p:column>
+                            <f:facet name="header">  
+                                <h:outputText value="#{bundle.ID}"/>  
+                            </f:facet> 
+                            <h:outputText value="#{currency.id}" /> 
+                            <f:facet name="footer"> 
+                                <p:commandButton value="#{bundle.Addcurrency}" action="#{adminMainPage.addCurrency()}"/> 
+                            </f:facet> 
+                        </p:column> 
+
+                        <p:column>  
+                            <f:facet name="header">  
+                                <h:outputText value="#{bundle.Currency}"/> 
+                            </f:facet> 
+                            <h:outputText value="#{currency.type}" /> 
+                            <f:facet name="footer"> 
+                                <h:inputText value="#{adminMainPage.currency.type}"/>
+                            </f:facet> 
+                        </p:column> 
+
+                    </p:dataTable>
+                </h:form>
+                <br/>
+                <br/>
+                <br/> 
+                <h:form>
+                    <p:dataTable value="#{adminMainPage.orderTypeList}" var="orderType">
+                        <f:facet name="header">  
+                            <h:outputText value="#{bundle.OrderTypeList}"/> 
+                        </f:facet> 
+                        <p:column>
+                            <f:facet name="header">  
+                                <h:outputText value="#{bundle.ID}" /> 
+                            </f:facet> 
+                            <h:outputText value="#{orderType.id}" /> 
+                            <f:facet name="footer"> 
+                                <p:commandButton value="#{bundle.AddOrderType}" action="#{adminMainPage.addOrderType()}"/> 
+                            </f:facet> 
+                        </p:column> 
+
+                        <p:column>  
+                            <f:facet name="header">  
+                                <h:outputText value="#{bundle.Types}"/> 
+                            </f:facet> 
+                            <h:outputText value="#{orderType.type}" /> 
+                            <f:facet name="footer"> 
+                                <h:inputText value="#{adminMainPage.orderType.type}"/>
+                            </f:facet> 
+                        </p:column> 
+
+                    </p:dataTable>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

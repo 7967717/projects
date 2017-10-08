@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ua.miratech.rudenko.docstore.persistence.SharedMapper">
+
+    <cache/>
+
+    <insert id="insertShared" parameterType="ua.miratech.rudenko.docstore.domain.Shared">
+        INSERT INTO SHARED
+        (ID, OWNER_NAME, GRANTEE_NAME)
+        VALUES
+        (#{id}, #{owner}, #{grantee})
+    </insert>
+
+    <select id="selectSharedCount" parameterType="ua.miratech.rudenko.docstore.domain.Shared" resultType="Integer">
+        SELECT COUNT(*)
+        FROM SHARED
+        WHERE
+        SHARED.ID = #{id}
+        AND
+        SHARED.OWNER_NAME = #{owner}
+        AND
+        SHARED.GRANTEE_NAME = #{grantee}
+    </select>
+
+</mapper>

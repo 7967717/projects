@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ua.miratech.rudenko.docstore.persistence.ArticlesMapper">
+
+    <cache/>
+
+    <select id="getArticlesByUser" parameterType="String" resultType="ua.miratech.rudenko.docstore.domain.Articles">
+      SELECT
+      ARTICLES.ID AS id,
+      ARTICLES.AUTHOR AS author,
+      ARTICLES.TITLE AS title,
+      ARTICLES.CREATED AS created,
+      ARTICLES.ID_OWNER AS idOwner
+      FROM ARTICLES
+      LEFT JOIN USERS
+      ON ARTICLES.ID_OWNER= USERS.USER_ID
+      WHERE USERS.USERNAME = #{username}
+    </select>
+
+    <select id="getArticleByFoundPath" parameterType="String"
+            resultType="ua.miratech.rudenko.docstore.domain.FoundArticle">
+      SELECT
+      ARTICLES.ID AS id,
+      ARTICLES.AUTHOR AS author,
+      ARTICLES.TITLE AS title,
+      USERS.USERNAME AS owner,
+      SHARED_TYPE.SHARED_TYPE AS sharedType,
+      ARTICLES.PATH AS path
+      FROM ARTICLES
+      LEFT JOIN SHARED_TYPE
+      ON ARTICLES.ID_SHARED_TYPE = SHARED_TYPE.ID_SHARED_TYPE
+      LEFT JOIN USERS
+      ON ARTICLES.ID_OWNER = USERS.USER_ID
+      WHERE ARTICLES.PATH = #{path}
+    </select>
+
+    <select id="getArticleByFoundPathAndUser" parameterType="ua.miratech.rudenko.docstore.domain.UserAndPath"
+            resultType="ua.miratech.rudenko.docstore.domain.FoundArticle">
+      SELECT
+      ARTICLES.ID AS id,
+      ARTICLES.AUTHOR AS author,
+      ARTICLES.TITLE AS title,
+      USERS.USERNAME AS owner,
+      SHARED_TYPE.SHARED_TYPE AS sharedType,
+      SHARED.GRANTEE_NAME,
+      ARTICLES.PATH AS path
+      FROM ARTICLES
+      LEFT JOIN SHARED_TYPE
+      ON ARTICLES.ID_SHARED_TYPE = SHARED_TYPE.ID_SHARED_TYPE
+      LEFT JOIN USERS
+      ON ARTICLES.ID_OWNER = USERS.USER_ID
+      LEFT JOIN SHARED
+      ON ARTICLES.ID = SHARED.ID
+      WHERE (ARTICLES.PATH = #{path} AND  SHARED_TYPE.SHARED_TYPE = 'PUBLIC')
+      OR (ARTICLES.PATH = #{path} AND USERS.USERNAME = #{userName})
+      OR (ARTICLES.PATH = #{path} AND SHARED_TYPE.SHARED_TYPE = 'PERSONAL'
+      AND SHARED.GRANTEE_NAME = #{userName})
+    </select>
+
+    <select id="getArticleById" parameterType="Integer" resultType="ua.miratech.rudenko.docstore.domain.Articles">
+      SELECT
+      ARTICLES.ID,
+      ARTICLES.ID_OWNER AS idOwner,
+      ARTICLES.STATUS,
+      ARTICLES.ID_SHARED_TYPE AS sharedType,
+      ARTICLES.PATH
+      FROM ARTICLES
+      WHERE ARTICLES.ID = #{id}
+    </select>
+
+    <select id="getNewArticleByID" parameterType="String" resultType="ua.miratech.rudenko.docstore.domain.NewArticle">
+      SELECT
+      ARTICLES.ID,
+      ARTICLES.AUTHOR,
+      ARTICLES.SUBJECT,
+      ARTICLES.STATUS,
+      ARTICLES.TITLE,
+      ARTICLES.CREATED,
+      ARTICLES.MODIFIED,
+      ARTICLES.FILE_NAME AS fileName,
+      ARTICLES.FILE_SIZE AS fileSize,
+      ARTICLES.ID_LANG AS idLang,
+      LANGUAGES.LANGUAGE,
+      ARTICLES.KEYWORDS,
+      ARTICLES.PAGE_SIZE AS pageSize,
+      ARTICLES.ID_SHARED_TYPE AS idSharedType,
+      SHARED_TYPE.SHARED_TYPE AS sharedType,
+      ARTICLES.NUMBER_OF_PAGES AS numberOfPages,
+      ARTICLES.FILE_TYPE AS fileType,
+      ARTICLES.ID_ARTICLE_TYPE AS idArticleType,
+      ARTICLE_TYPE.TYPE
+      FROM ARTICLES
+      LEFT JOIN LANGUAGES
+      ON ARTICLES.ID_LANG = LANGUAGES.ID_LANG
+      LEFT JOIN SHARED_TYPE
+      ON ARTICLES.ID_SHARED_TYPE = SHARED_TYPE.ID_SHARED_TYPE
+      LEFT JOIN ARTICLE_TYPE
+      ON ARTICLES.ID_ARTICLE_TYPE = ARTICLE_TYPE.TYPE_ID
+      WHERE ARTICLES.ID = #{id}
+    </select>
+
+    <select id="selectNewArticleId" resultType="Integer">
+      SELECT ARTICLES_SEQ.nextVal from dual
+    </select>
+
+    <insert id="insertNewArticle" parameterType="ua.miratech.rudenko.docstore.domain.NewArticle">
+        INSERT INTO ARTICLES
+        (ID, AUTHOR, SUBJECT, STATUS, TITLE, FILE_NAME, FILE_SIZE, PATH, MD5, ID_OWNER, KEYWORDS, PAGE_SIZE,
+         NUMBER_OF_PAGES, FILE_TYPE)
+        VALUES
+        (#{id}, #{author}, #{subject}, #{status}, #{title}, #{fileName}, #{fileSize}, #{path}, #{md5}, #{idOwner},
+        #{keywords}, #{pageSize}, #{numberOfPages}, #{fileType})
+    </insert>
+
+    <update id="updateNewArticle" parameterType="ua.miratech.rudenko.docstore.domain.NewArticle">
+        UPDATE ARTICLES SET
+         AUTHOR = #{author},
+         SUBJECT = #{subject},
+         TITLE = #{title},
+         KEYWORDS = #{keywords},
+         ID_ARTICLE_TYPE = #{idArticleType},
+         ID_LANG = #{idLang},
+         ID_SHARED_TYPE = #{idSharedType}
+        WHERE ID = #{id}
+    </update>
+
+    <select id="getFileNameByPath" parameterType="String" resultType="String">
+      SELECT
+      ARTICLES.FILE_NAME
+      FROM ARTICLES
+      WHERE ARTICLES.PATH = #{path}
+    </select>
+
+    <select id="getArticlesMd5" resultType="ua.miratech.rudenko.docstore.domain.Articles">
+      SELECT
+      ARTICLES.MD5,
+      ARTICLES.PATH
+      FROM ARTICLES
+    </select>
+
+    <update id="updateNewArticleStatus" parameterType="ua.miratech.rudenko.docstore.domain.ArticleStatus">
+        UPDATE ARTICLES SET
+         STATUS = #{status}
+        WHERE ID = #{id}
+    </update>
+
+    <select id="getSharedType" parameterType="Integer" resultType="Integer">
+      SELECT
+      ARTICLES.ID_SHARED_TYPE AS sharedType
+      FROM ARTICLES
+      WHERE ID = #{id}
+    </select>
+
+    <select id="getSharedTypeList" resultType="String">
+      SELECT
+      SHARED_TYPE.SHARED_TYPE
+      FROM SHARED_TYPE
+    </select>
+
+    <select id="getSharedTypeMap" resultType="ua.miratech.rudenko.docstore.domain.SharedType">
+      SELECT
+      SHARED_TYPE.ID_SHARED_TYPE AS idSharedType,
+      SHARED_TYPE.SHARED_TYPE AS sharedType
+      FROM SHARED_TYPE
+    </select>
+
+    <select id="getLanguagesMap" resultType="ua.miratech.rudenko.docstore.domain.Languages">
+      SELECT
+      ID_LANG AS idLang,
+      LANGUAGE AS language
+      FROM LANGUAGES
+    </select>
+
+    <select id="getArticleTypeMap" resultType="ua.miratech.rudenko.docstore.domain.ArticleType">
+      SELECT
+      TYPE_ID AS idArticleType,
+      TYPE AS type
+      FROM ARTICLE_TYPE
+    </select>
+
+    <select id="getArticleByExtQuery" parameterType="ua.miratech.rudenko.docstore.textIndex.ExtQuery"
+            resultType="ua.miratech.rudenko.docstore.domain.FoundArticle">
+      SELECT
+      ARTICLES.ID AS id,
+      ARTICLES.AUTHOR AS author,
+      ARTICLES.TITLE AS title,
+      USERS.USERNAME AS owner,
+      SHARED_TYPE.SHARED_TYPE AS sharedType,
+      SHARED.GRANTEE_NAME,
+      ARTICLES.PATH AS path
+      FROM ARTICLES
+      LEFT JOIN SHARED_TYPE
+      ON ARTICLES.ID_SHARED_TYPE = SHARED_TYPE.ID_SHARED_TYPE
+      LEFT JOIN USERS
+      ON ARTICLES.ID_OWNER = USERS.USER_ID
+      LEFT JOIN SHARED
+      ON ARTICLES.ID = SHARED.ID
+      WHERE ARTICLES.PATH IS NOT NULL
+        <choose>
+            <when test="path != null">
+                AND ARTICLES.PATH = #{path}
+            </when>
+            <when test="idLang != null">
+                AND ARTICLES.ID_LANG = #{idLang}
+            </when>
+            <when test="idArticleType != null">
+                AND ARTICLES.ID_ARTICLE_TYPE = #{idArticleType}
+            </when>
+            <when test="createdDate != null">
+                AND trunc(ARTICLES.CREATED) = #{createdDate}
+            </when>
+            <when test="modifiedDate != null">
+                AND trunc(ARTICLES.MODIFIED) = #{modifiedDate}
+            </when>
+            <when test="paperSize != null">
+                AND ARTICLES.PAGE_SIZE = #{paperSize}
+            </when>
+            <when test="numberOfPages != null">
+                AND ARTICLES.NUMBER_OF_PAGES = #{numberOfPages}
+            </when>
+        </choose>
+        INTERSECT
+        SELECT
+        ARTICLES.ID AS id,
+        ARTICLES.AUTHOR AS author,
+        ARTICLES.TITLE AS title,
+        USERS.USERNAME AS owner,
+        SHARED_TYPE.SHARED_TYPE AS sharedType,
+        SHARED.GRANTEE_NAME,
+        ARTICLES.PATH AS path
+        FROM ARTICLES
+        LEFT JOIN SHARED_TYPE
+        ON ARTICLES.ID_SHARED_TYPE = SHARED_TYPE.ID_SHARED_TYPE
+        LEFT JOIN USERS
+        ON ARTICLES.ID_OWNER = USERS.USER_ID
+        LEFT JOIN SHARED
+        ON ARTICLES.ID = SHARED.ID
+        WHERE (SHARED_TYPE.SHARED_TYPE = 'PUBLIC')
+        OR (USERS.USERNAME = #{userName})
+        OR (SHARED_TYPE.SHARED_TYPE = 'PERSONAL' AND SHARED.GRANTEE_NAME = #{userName})
+    </select>
+
+</mapper>
+
+                       <!--AND trunc(ARTICLES.CREATED) = #{createdDate}-->
+        <!--AND trunc(ARTICLES.CREATED) = TO_DATE('04/03/2014','dd/mm/yyyy')-->
+

@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+    lang="#{localeBean.localeCode}"
+    xmlns="http://www.w3.org/1999/xhtml"
+
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:view locale="#{localeBean.locale}"/>
+
+    <body>
+
+        <ui:composition template="./userTemplate.xhtml">
+
+            <ui:define name="content">
+                <p/>
+                <h:form id="form1">
+                    <h:outputText value="#{bundle.ToConfirmTransaction}"/>
+                    <p/>
+                    <p:dataTable id="orders" var="order" value="#{userMainPage.orderList}"
+                                 paginator="true" rows="7">
+
+                        <f:facet name="header">  
+                            <h:outputText value="#{bundle.OrderList}"/> 
+                        </f:facet>
+
+                        <p:column style="width:10%"> 
+                            <p:commandButton update=":form1:display" value="#{bundle.Select}">  
+                                <f:setPropertyActionListener value="#{order}" target="#{userMainPage.selectedOrder}" /> 
+                            </p:commandButton> 
+                        </p:column> 
+
+                        <p:column headerText="#{bundle.ID}" style="width:5%">  
+                            #{order.id} 
+                        </p:column>  
+
+                        <p:column headerText="#{bundle.Date}" style="width:30%">  
+                            #{order.date}  
+                        </p:column> 
+
+                        <p:column headerText="#{bundle.Type}" style="width:10%">  
+                            #{order.orderTypeId}  
+                        </p:column> 
+
+                        <p:column headerText="#{bundle.Amount}" style="width:20%">  
+                            #{order.amount}  
+                        </p:column>  
+
+                        <p:column headerText="#{bundle.Currency}" style="width:20%">  
+                            #{userMainPage.selectedAccount.currencyId}  
+                        </p:column> 
+
+                        <p:column headerText="#{bundle.Confirmed}" style="width:15%">  
+                            #{order.confirmed}  
+                        </p:column> 
+
+                    </p:dataTable>
+                    <br/>
+
+                    <h:panelGrid id="display" columns="2" >
+
+                        <f:facet name="header"> 
+                            <h:outputText value="#{bundle.YouHaveSelected}"/>
+                        </f:facet> 
+
+                        <h:outputText value="#{bundle.OrderN}"/>
+                        <h:outputText value="#{userMainPage.selectedOrder.id}" style="font-weight:bold"/>
+
+                        <h:outputText value="#{userMainPage.selectedOrder.amount} "/>
+                        <h:outputText value="#{userMainPage.selectedAccount.currencyId}" style="font-weight:bold"/>
+
+                    </h:panelGrid>
+
+                </h:form >
+                <br/>
+                <h:form id="confirmOrder">
+
+                    <p:commandButton update=":form1:orders, :form" value="#{bundle.ConfirmTransaction}" 
+                                     action="#{userMainPage.confirmTransaction()}"/> 
+
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

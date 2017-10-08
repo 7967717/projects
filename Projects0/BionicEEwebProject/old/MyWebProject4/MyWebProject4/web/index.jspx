@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    Document   : index
+    Created on : Jul 24, 2013, 9:10:37 AM
+    Author     : romanrudenko
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+
+    <jsp:directive.page contentType="text/html" pageEncoding="UTF-8"/>
+
+    <html>
+        <head>          
+            <title>ePouch</title>
+        </head>
+        <body>
+            <a href="controller">ePouch start page</a>
+        </body>
+    </html>
+
+</jsp:root>

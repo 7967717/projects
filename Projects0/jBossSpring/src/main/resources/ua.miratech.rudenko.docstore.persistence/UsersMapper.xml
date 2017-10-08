@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ua.miratech.rudenko.docstore.persistence.UsersMapper">
+
+    <cache/>
+
+    <select id="getUser" parameterType="String" resultType="ua.miratech.rudenko.docstore.domain.Users">
+      SELECT
+      USERS.USER_ID AS userId,
+      USERS.USERNAME,
+      USERS.PASSWORD,
+      USERS.ENABLED,
+      USER_ROLES.AUTHORITY as role
+      FROM USERS
+      LEFT JOIN USER_ROLES
+      ON USERS.USER_ID= USER_ROLES.USER_ID
+      WHERE USERS.USER_ID = #{userId}
+    </select>
+
+    <select id="getByUsername" parameterType="String" resultType="ua.miratech.rudenko.docstore.domain.Users">
+      SELECT
+      USERS.USER_ID AS userId,
+      USERS.USERNAME,
+      USERS.PASSWORD,
+      USERS.ENABLED,
+      USER_ROLES.AUTHORITY as role
+      FROM USERS
+      LEFT JOIN USER_ROLES
+      ON USERS.USER_ID= USER_ROLES.USER_ID
+      WHERE USERS.USERNAME = #{username}
+    </select>
+
+    <select id="getAllUsers" resultType="ua.miratech.rudenko.docstore.domain.Users">
+      SELECT
+      USERS.USER_ID AS userId,
+      USERS.USERNAME,
+      USERS.PASSWORD,
+      USERS.ENABLED,
+      USER_ROLES.AUTHORITY as role
+      FROM USERS
+      LEFT JOIN USER_ROLES
+      ON USERS.USER_ID= USER_ROLES.USER_ID
+    </select>
+
+    <select id="getIdByName" parameterType="String" resultType="Integer">
+      SELECT
+      USERS.USER_ID AS userId
+      FROM USERS
+      WHERE USERS.USERNAME = #{username}
+    </select>
+
+    <select id="getNameById" parameterType="Integer" resultType="String">
+      SELECT
+      USERS.USERNAME AS username
+      FROM USERS
+      WHERE USERS.USER_ID = #{userId}
+    </select>
+
+    <select id="selectNewUserId" resultType="Integer">
+      SELECT USERS_SEQ.nextVal from dual
+    </select>
+
+    <insert id="insertUser" parameterType="ua.miratech.rudenko.docstore.domain.Users">
+        INSERT INTO USERS
+        (USER_ID, USERNAME, PASSWORD, ENABLED)
+        VALUES
+        (#{userId}, #{username}, #{password}, #{enabled})
+    </insert>
+
+    <insert id="insertUserRole" parameterType="ua.miratech.rudenko.docstore.domain.Users">
+        INSERT INTO USER_ROLES
+        (USER_ID, AUTHORITY)
+        VALUES
+        (#{userId}, #{role})
+    </insert>
+
+
+
+</mapper>
+

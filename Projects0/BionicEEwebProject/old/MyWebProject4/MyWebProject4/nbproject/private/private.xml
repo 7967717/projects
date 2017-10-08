@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
+        <file>file:/C:/Users/roman.rudenko/Documents/MyProjects/BionicEEwebProject/MyWebProject4/MyWebProject4/src/java/ua/bionic/pouch/commands/ConfirmTransactionCommand.java</file>
+        <file>file:/C:/Users/roman.rudenko/Documents/MyProjects/BionicEEwebProject/MyWebProject4/MyWebProject4/src/java/ua/bionic/pouch/beans/Account.java</file>
+        <file>file:/C:/Users/roman.rudenko/Documents/MyProjects/BionicEEwebProject/MyWebProject4/MyWebProject4/src/java/ua/bionic/pouch/commands/LoginCommand.java</file>
+        <file>file:/C:/Users/roman.rudenko/Documents/MyProjects/BionicEEwebProject/MyWebProject4/MyWebProject4/src/java/ua/bionic/pouch/commands/ICommand.java</file>
+        <file>file:/C:/Users/roman.rudenko/Documents/MyProjects/BionicEEwebProject/MyWebProject4/MyWebProject4/src/java/ua/bionic/pouch/commands/MainMenuCommand.java</file>
+        <file>file:/C:/Users/roman.rudenko/Documents/MyProjects/BionicEEwebProject/MyWebProject4/MyWebProject4/src/java/ua/bionic/pouch/daoImpl/AccountDaoImpl.java</file>
+        <file>file:/C:/Users/roman.rudenko/Documents/MyProjects/BionicEEwebProject/MyWebProject4/MyWebProject4/src/java/ua/bionic/pouch/dao/IAccountDao.java</file>
+        <file>file:/C:/Users/roman.rudenko/Documents/MyProjects/BionicEEwebProject/MyWebProject4/MyWebProject4/src/java/ua/bionic/pouch/controller/Controller.java</file>
+        <file>file:/C:/Users/roman.rudenko/Documents/MyProjects/BionicEEwebProject/MyWebProject4/MyWebProject4/src/java/ua/bionic/pouch/connection/ConnectionPool.java</file>
+        <file>file:/C:/Users/roman.rudenko/Documents/MyProjects/BionicEEwebProject/MyWebProject4/MyWebProject4/web/WEB-INF/jsp/mainMenu.jspx</file>
+    </open-files>
+</project-private>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="#{localeBean.localeCode}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      >
+    <f:view locale="#{localeBean.locale}"/>
+
+    <h:head>
+        <title>Title</title>
+    </h:head>
+    <h:body>
+        <p:layout fullPage="true">
+            <p:layoutUnit position="west" size="200" header="#{bundle.Menu}" resizable="true" closable="true" collapsible="true">
+                <h:form>
+                    <p:menu>
+                        <p:menuitem value="#{bundle.MainPage}" outcome="adminMainPage" />
+                        <p:menuitem value="#{bundle.UserList}" outcome="userList" />
+                    </p:menu>
+                </h:form>   
+            </p:layoutUnit>
+
+            <p:layoutUnit position="east" size="200" header="#{bundle.Login}" resizable="true" closable="true" collapsible="true" effect="drop">
+                <br/>
+                <h:form>
+                    <h:panelGrid columns="2">
+                        <h:outputText value="#{bundle.ChoseLanguage}"/>
+                        <h:selectOneMenu value="#{localeBean.localeCode}" onchange="submit()"
+                                         valueChangeListener="#{localeBean.countryLocaleCodeChanged}">
+                            <f:selectItems value="#{localeBean.countriesInMap}" /> 
+                        </h:selectOneMenu>
+                    </h:panelGrid>
+                </h:form>
+                <p/>
+                <h:outputText value="#{bundle.You_are_logged_in_as}"/>
+                <br/>
+                <h:outputText value="[ "/>
+                <h:outputText value="#{userMainPage.user.login}"/>
+                <h:outputText value=" ]"/>
+                <p/>
+                <h:form>
+                    <p:commandButton value="#{bundle.Logout}" action="#{userMainPage.doLogout}"/>     
+                </h:form>
+                <p/>
+
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center">
+                <ui:insert name="content">Put default content here, if any.</ui:insert>
+            </p:layoutUnit>
+        </p:layout>
+    </h:body>
+</html>

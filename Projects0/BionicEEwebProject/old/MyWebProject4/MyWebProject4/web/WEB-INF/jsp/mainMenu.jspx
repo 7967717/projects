@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    Document   : mainPage
+    Created on : Jul 25, 2013, 9:07:47 AM
+    Author     : romanrudenko
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"  
+          version="2.0">
+
+    <jsp:directive.page contentType="text/html" pageEncoding="UTF-8"/>
+
+    <html>
+        <head>
+            <title>
+                Welcome !
+            </title>
+        </head>
+        <body>
+            <h3>Welcome to iPouch</h3>
+            <h4>Login successful</h4>
+            <hr/>
+            <c:out value="Hi ${user.name}!"/>           
+            <hr/>
+            <p>Your info</p>
+            <c:out value="${user}"/>
+            <hr/>
+            <p>User Types</p>
+            <c:forEach items="${userTypes}" var="userType">
+            <tr>
+                <td>${userType.idUserType} - </td>
+                <td>${userType.userDesc}</td>
+            <br></br>
+            </tr>
+            </c:forEach>
+            <hr/>
+            <c:out value="${user.name}, please make your choice"/>
+
+            <form name="MainMenuForm" method="POST" action="controller">
+                <p><input type="submit" name="command" value="Show My Account"/></p>
+                <p><input type="submit" name="command" value="Show Orders"/></p>
+                <p><input type="submit" name="command" value="Make Transaction"/></p>
+                <p><input type="submit" name="command" value="Show Transactions"/></p>
+                <p><input type="submit" name="command" value="Logout"/></p>
+            </form>
+            <hr/>
+            <hr/>
+            <p><a href="controller">Return to login</a></p>
+            <hr/>
+        </body>
+        </html>
+
+</jsp:root>

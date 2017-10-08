@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Register Form</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:panelGrid columns="2" >
+                <p:outputLabel value="Login : "/>
+                <p:inputText id="login"
+                             value="#{register.user.login}"
+                             required="true"
+                             requiredMessage="Error: A login is required."/>
+                <p:outputLabel for="pwd1" value="Password 1: *"/>
+                <p:password id="pwd1" 
+                            value="#{register.user.password}"
+                            match="pwd2" label="Password 1" required="true">
+                    <f:validateRegex pattern="((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,10})"/>
+                </p:password>               
+                <p:outputLabel for="pwd2" value="Password 2: *" />
+                <p:password id="pwd2"
+                            value="#{register.user.password}"
+                            label="Password 2" required="true"/>
+                <p:outputLabel value="Name : "/>
+                <p:inputText value="#{register.user.name}" />
+                <p:outputLabel value="email : "/>
+                <p:inputText value="#{register.user.email}"/>
+
+            </p:panelGrid>
+        </h:form>
+        <h:form>
+            <p:commandButton value="Register user" action="#{register.doCreateUser()}"/>
+        </h:form>
+    </h:body>
+</html>

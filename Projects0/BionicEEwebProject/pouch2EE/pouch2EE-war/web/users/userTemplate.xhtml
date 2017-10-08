@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="#{localeBean.localeCode}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      >
+    <f:view locale="#{localeBean.locale}"/>
+
+    <h:head>
+        <title>#{bundle.pouch}</title>
+    </h:head>
+    <h:body>
+        <p:layout fullPage="true">
+            <p:layoutUnit position="north" size="80" header="#{bundle.WelcomeToEpouch}" resizable="true" closable="true" collapsible="true">
+                <h:form id="form"> 
+                    <h:outputText value="#{bundle.AccountN}" style="font-weight:bold" />
+                    <h:outputText value="#{userMainPage.selectedAccount.id}" style="font-weight:bold"/>
+                    <h:outputText value=" "/>
+                    <h:outputText value="[#{userMainPage.selectedAccount.balance} " style="font-weight:bold"/>
+                    <h:outputText value="#{userMainPage.selectedAccount.currencyId}]" style="font-weight:bold"/> 
+                </h:form>
+
+            </p:layoutUnit>
+
+            <p:layoutUnit position="south" size="80" header="#{bundle.pouch}" resizable="true" closable="true" collapsible="true">
+                <h:outputText value="#{bundle.Bionic}" />
+            </p:layoutUnit>
+
+            <p:layoutUnit position="west" size="250" header="#{bundle.Menu}" resizable="true" closable="true" collapsible="true">
+                <h:form>
+                    <p:menu>
+                        <p:menuitem value="#{bundle.MainPage}" outcome="userMainPage" />
+                        <p:menuitem value="#{bundle.CreateNewOrder}" outcome="createOrder" />
+                        <p:menuitem value="#{bundle.ViewOrders}" outcome="viewOrders" />
+                        <p:menuitem value="#{bundle.ConfirmTransaction}" outcome="confirmTransaction" />
+                        <p:menuitem value="#{bundle.ViewTransactions}" outcome="viewTransactions" />
+                    </p:menu>
+                </h:form>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="east" size="150" header="#{bundle.Login}" resizable="true" closable="true" collapsible="true" effect="drop">
+                <br/>
+                <h:form>
+                    <h:outputText value="#{bundle.ChoseLanguage}"/>
+                    <br/>
+                    <h:commandLink action="#{localeBean.selLocaleEN()}" >  
+                        <h:outputText value="en" />  
+                    </h:commandLink> 
+                    <br/>
+                    <h:commandLink action="#{localeBean.selLocaleRU()}" >  
+                        <h:outputText value="ru" />  
+                    </h:commandLink> 
+                    <p/>             
+                    <h:outputText value="#{bundle.You_are_logged_in_as}"/>
+                    <br/>
+                    <h:outputText value="[ "/>
+                    <h:outputText value="#{userMainPage.user.login}"/>
+                    <h:outputText value=" ]"/>
+                    <p/>
+                </h:form>
+                <h:form>
+                    <p:commandButton value="#{bundle.Logout}" action="#{userMainPage.doLogout}"/>     
+                </h:form>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center">
+                <ui:insert name="content">Put default content here, if any.</ui:insert>
+            </p:layoutUnit>
+        </p:layout>
+    </h:body>
+</html>

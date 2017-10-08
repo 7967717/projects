@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+    lang="#{localeBean.localeCode}"
+    xmlns="http://www.w3.org/1999/xhtml"
+
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:view locale="#{localeBean.locale}"/>
+
+    <body>
+
+        <ui:composition template="./userTemplate.xhtml">
+
+            <ui:define name="content">
+                <h:form id="form1">
+                    <br/>
+                    <p:dataTable id="transactions" var="transaction" value="#{userMainPage.transactionList}"
+                                 paginator="true" rows="15"> 
+
+                        <f:facet name="header">  
+                            <h:outputText value="#{bundle.TransactionList}"/> 
+                        </f:facet>
+
+                        <p:column headerText="#{bundle.ID}" style="width:5%">  
+                            #{transaction.id} 
+                        </p:column>  
+
+                        <p:column headerText="#{bundle.Date}" style="width:30%">  
+                            #{transaction.date}  
+                        </p:column> 
+
+                        <p:column headerText="#{bundle.OrderInfo}" style="width:55%">  
+                            #{transaction.orderId}  
+                        </p:column> 
+
+                    </p:dataTable>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
